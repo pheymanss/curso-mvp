@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>Plan de Contenido&colon; Clase de SQL para Cient&iacute;ficos de Datos &lpar;~3 Horas&rpar;</title>
+            <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only],
+.vscode-high-contrast:not(.vscode-high-contrast-light) img[src$=\#gh-light-mode-only],
+.vscode-high-contrast-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+</style>
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css">
+<link href="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.css" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+<style>
+:root {
+  --color-note: #0969da;
+  --color-tip: #1a7f37;
+  --color-warning: #9a6700;
+  --color-severe: #bc4c00;
+  --color-caution: #d1242f;
+  --color-important: #8250df;
+}
+
+</style>
+<style>
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-note: #2f81f7;
+    --color-tip: #3fb950;
+    --color-warning: #d29922;
+    --color-severe: #db6d28;
+    --color-caution: #f85149;
+    --color-important: #a371f7;
+  }
+}
+
+</style>
+<style>
+.markdown-alert {
+  padding: 0.5rem 1rem;
+  margin-bottom: 16px;
+  color: inherit;
+  border-left: .25em solid #888;
+}
+
+.markdown-alert>:first-child {
+  margin-top: 0
+}
+
+.markdown-alert>:last-child {
+  margin-bottom: 0
+}
+
+.markdown-alert .markdown-alert-title {
+  display: flex;
+  font-weight: 500;
+  align-items: center;
+  line-height: 1
+}
+
+.markdown-alert .markdown-alert-title .octicon {
+  margin-right: 0.5rem;
+  display: inline-block;
+  overflow: visible !important;
+  vertical-align: text-bottom;
+  fill: currentColor;
+}
+
+.markdown-alert.markdown-alert-note {
+  border-left-color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-note .markdown-alert-title {
+  color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-important {
+  border-left-color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-important .markdown-alert-title {
+  color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-warning {
+  border-left-color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-warning .markdown-alert-title {
+  color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-tip {
+  border-left-color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-tip .markdown-alert-title {
+  color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-caution {
+  border-left-color: var(--color-caution);
+}
+
+.markdown-alert.markdown-alert-caution .markdown-alert-title {
+  color: var(--color-caution);
+}
+
+</style>
+        
+        </head>
+        <body class="vscode-body vscode-light">
+            <h1 id="plan-de-contenido-clase-de-sql-para-científicos-de-datos-3-horas">Plan de Contenido: Clase de SQL para Científicos de Datos (~3 Horas)</h1>
+<p><strong>Objetivo de la sesión:</strong> Quien asista a esta clase será capaz de extraer, filtrar, agregar y combinar datos de bases de datos relacionales con el usarlos como insumos para procesos de ciencia de datos.</p>
+<p><strong>Audiencia:</strong> Aspirantes a científicos de datos, analistas y profesionales que requieran el uso de SQL para la manipulación de datos y no cuenten con experiencia previa.</p>
+<p><strong>Metodología:</strong> El curso es mayoritariamente práctico. Cada concepto se presenta como la solución a un problema real. Se utilizará un conjunto de datos estandarizado para todos los ejercicios (ej. ventas, catálogos de productos, personal, etc).</p>
+<h2 id="sección-1-fundamentos-y-consultas-esenciales">Sección 1: Fundamentos y Consultas Esenciales</h2>
+<p><strong>Objetivo:</strong> Introducir al participante a la sintaxis de SQL y a la estructura de las bases de datos relacionales, permitiendo la ejecución de sus primeras consultas de extracción de datos.</p>
+<ul>
+<li><strong>Introducción a SQL: Rol en la Ciencia de Datos</strong>
+<ul>
+<li>Definición de SQL como el lenguaje estándar para la gestión y consulta de datos en sistemas de bases de datos relacionales.</li>
+</ul>
+</li>
+<li><strong>Estructura de una Base de Datos Relacional</strong>
+<ul>
+<li>Conceptos clave: Bases de datos, tablas, columnas y filas.</li>
+</ul>
+</li>
+<li><strong>La consulta fundamental: <code>SELECT FROM</code></strong>
+<ul>
+<li><strong>Aplicación real:</strong> &quot;Se necesita ver los nombres y precios de todos los productos en el catálogo.&quot;</li>
+<li>Práctica: <code>SELECT nombre_producto, precio FROM productos;</code></li>
+</ul>
+</li>
+<li><strong>Limitación de resultados: <code>LIMIT</code></strong>
+<ul>
+<li><strong>Aplicación real:</strong> &quot;Para obtener una idea rápida de los datos, se requiere mostrar solo las primeras 10 filas de la tabla de ventas.&quot;</li>
+<li>Práctica: <code>SELECT \* FROM ventas LIMIT 10;</code></li>
+</ul>
+</li>
+</ul>
+<h2 id="sección-2-filtrado-de-datos">Sección 2: Filtrado de Datos</h2>
+<p><strong>Objetivo:</strong> Capacitar al participante en la aplicación de filtros precisos para aislar subconjuntos de datos relevantes, una tarea fundamental en el análisis exploratorio.</p>
+<ul>
+<li><strong>Filtrado de filas con la cláusula WHERE</strong>
+<ul>
+<li><strong>Aplicación real:</strong> &quot;Se debe generar una lista de todos los clientes que son de México.&quot;</li>
+<li>Práctica: <code>SELECT \* FROM clientes WHERE pais = 'México';</code></li>
+</ul>
+</li>
+<li><strong>Condiciones múltiples: AND, OR, BETWEEN</strong>
+<ul>
+<li><strong>Aplicación real:</strong> &quot;Se deben buscar las órdenes de alto valor (más de $500) que se realizaron durante el primer trimestre de 2023.&quot;</li>
+<li>Práctica: <code>SELECT \* FROM ordenes WHERE fecha BETWEEN '2023-01-01' AND '2023-03-31' AND total &gt; 500;</code></li>
+</ul>
+</li>
+<li><strong>Manejo de valores nulos: IS NULL, IS NOT NULL</strong>
+<ul>
+<li><strong>Aplicación real:</strong> &quot;Se necesita identificar a todos los usuarios que no han registrado su número de teléfono.&quot;</li>
+<li>Práctica: <code>SELECT \* FROM usuarios WHERE telefono IS NULL;</code></li>
+</ul>
+</li>
+<li><strong>Ordenamiento de resultados: ORDER BY</strong>
+<ul>
+<li><strong>Aplicación real:</strong> &quot;¿Quiénes son los 5 empleados con los salarios más altos?&quot;</li>
+<li>Práctica: <code>SELECT \* FROM empleados ORDER BY salario DESC LIMIT 5;</code></li>
+</ul>
+</li>
+</ul>
+<h2 id="sección-3-agregación-y-resumen-de-datos">Sección 3: Agregación y Resumen de Datos</h2>
+<p><strong>Objetivo:</strong> Esta sección se centra en las técnicas de agregación, que permiten transformar datos crudos en métricas y resúmenes de negocio (KPIs).</p>
+<ul>
+<li><strong>Valores únicos: DISTINCT</strong>
+<ul>
+<li><strong>Aplicación real:</strong> &quot;¿De cuántos países diferentes provienen los clientes?&quot;</li>
+<li>Práctica: <code>SELECT COUNT(DISTINCT pais) FROM clientes;</code></li>
+</ul>
+</li>
+<li><strong>Funciones de agregación: COUNT, SUM, AVG, MAX, MIN</strong>
+<ul>
+<li><strong>Aplicación real:</strong> &quot;Se debe calcular el número total de reseñas y la calificación promedio de un producto.&quot;</li>
+<li>Práctica: <code>SELECT COUNT(1), AVG(calificacion) FROM resenas;</code></li>
+</ul>
+</li>
+<li><strong>Agrupación de datos: GROUP BY</strong>
+<ul>
+<li><strong>Aplicación real:</strong> &quot;Se requiere un reporte que muestre el precio promedio de los productos para cada categoría.&quot;</li>
+<li>Práctica: <code>SELECT categoria, AVG(precio) FROM productos GROUP BY categoria;</code></li>
+</ul>
+</li>
+<li><strong>Filtrado de grupos: HAVING</strong>
+<ul>
+<li><strong>Aplicación real:</strong> &quot;Se deben identificar los clientes que han realizado más de 3 órdenes para incluirlos en un programa de lealtad.&quot;</li>
+<li>Práctica: <code>SELECT cliente_id, COUNT(\*) FROM ordenes GROUP BY cliente_id HAVING COUNT(\*) &gt; 3;</code></li>
+</ul>
+</li>
+</ul>
+<h2 id="sección-4-combinación-de-tablas">Sección 4: Combinación de Tablas</h2>
+<p><strong>Objetivo:</strong> Los datos en ambientes reales se encuentran distribuidos en múltiples tablas. Esta sección enseña cómo combinar estas tablas para construir una visión integral de la información.</p>
+<ul>
+<li><strong>Modelo relacional: Llaves primarias y foráneas</strong>
+<ul>
+<li>Explicación de los campos clave que permiten establecer relaciones entre tablas.</li>
+</ul>
+</li>
+<li><strong>Combinación de tablas: INNER JOIN</strong>
+<ul>
+<li><strong>Aplicación real:</strong> &quot;Se requiere ver el nombre de cada cliente junto al ID de sus órdenes.&quot;</li>
+<li>Práctica: <code>SELECT ordenes.id, clientes.nombre FROM ordenes INNER JOIN clientes ON ordenes.cliente_id = clientes.id;</code></li>
+</ul>
+</li>
+<li><strong>Combinaciones externas: LEFT JOIN</strong>
+<ul>
+<li><strong>Aplicación real:</strong> &quot;Se debe generar una lista de todos los clientes e indicar quiénes de ellos nunca han realizado una orden.&quot;</li>
+<li>Práctica: <code>SELECT clientes.nombre, ordenes.id FROM clientes LEFT JOIN ordenes ON clientes.id = ordenes.cliente_id;</code></li>
+</ul>
+</li>
+<li><strong>Uso de alias: <code>AS</code></strong>
+<ul>
+<li><strong>Función:</strong> Asignar nombres temporales a tablas y columnas para mejorar la legibilidad y evitar ambigüedad en consultas complejas.</li>
+</ul>
+</li>
+</ul>
+<h2 id="anexo-próximos-pasos-y-temas-avanzados">Anexo: Próximos Pasos y Temas Avanzados</h2>
+<p>Una vez dominados los conceptos de este curso, la siguiente ruta de aprendizaje permitirá profundizar en técnicas más avanzadas de manipulación y análisis de datos con SQL.</p>
+<p><strong>1. Dominio de la Transformación de Datos (Data Wrangling)</strong></p>
+<ul>
+<li><strong>Lógica condicional (<code>CASE WHEN</code>):</strong> Para crear columnas personalizadas y segmentar datos (ej. agrupar clientes por nivel de gasto).</li>
+<li><strong>Funciones de Texto y Búsqueda de Patrones:</strong> Para la limpieza y extracción de características (ej. LIKE, SUBSTRING, CONCAT).</li>
+<li><strong>Funciones de Fecha:</strong> Para manipular y extraer componentes de fechas (ej. EXTRACT, DATE_TRUNC).</li>
+<li><strong>Conversión de Tipos de Datos (<code>CAST</code>):</strong> Para asegurar la consistencia y compatibilidad de los datos antes del análisis.</li>
+</ul>
+<p><strong>2. Estructuración de Consultas Complejas</strong></p>
+<ul>
+<li><strong>Subconsultas (Subqueries):</strong> Para anidar una consulta dentro de otra y realizar filtros o cálculos basados en resultados intermedios.</li>
+<li><strong>Common Table Expressions (CTEs):</strong> Para mejorar la legibilidad y modularidad de las consultas largas usando la cláusula WITH, un paso fundamental hacia el código SQL limpio y mantenible.</li>
+</ul>
+<p><strong>3. Técnicas de Análisis Avanzado</strong></p>
+<ul>
+<li><strong>Funciones de Ventana (Window Functions):</strong> Para realizar cálculos analíticos avanzados como rankings, promedios móviles y totales acumulados, sin colapsar las filas.</li>
+<li><strong>Tipos de JOIN avanzados:</strong> Explorar <code>FULL OUTER JOIN</code> y <code>CROSS JOIN</code>  para escenarios de análisis de datos más complejos.</li>
+<li><strong>Pivoteo de Datos (conceptual):</strong> Entender el concepto de transformar filas en columnas (<code>PIVOT</code>) para la creación de reportes y matrices.</li>
+</ul>
+<hr>
+<p><strong>Distribución del Tiempo Aproximada</strong></p>
+<p><strong>Tiempo total del curso:</strong> ~3 horas</p>
+<ul>
+<li><strong>Sección 1: Fundamentos y Consultas Esenciales (30 minutos)</strong>
+<ul>
+<li>Introducción a SQL: 5 min</li>
+<li>Estructura de una Base de Datos: 10 min</li>
+<li>Consulta SELECT y FROM: 10 min</li>
+<li>Limitación con LIMIT: 2 min</li>
+</ul>
+</li>
+<li><strong>Sección 2: Filtrado de Datos (40 minutos)</strong>
+<ul>
+<li>Filtrado con WHERE: 10 min</li>
+<li>Condiciones múltiples (AND, OR): 15 min</li>
+<li>Manejo de nulos (IS NULL): 10 min</li>
+<li>Ordenamiento (ORDER BY): 5 min</li>
+</ul>
+</li>
+<li><strong>Sección 3: Agregación y Resumen de Datos (50 minutos)</strong>
+<ul>
+<li>Valores únicos (DISTINCT): 5 min</li>
+<li>Funciones de agregación: 15 min</li>
+<li>Agrupación (GROUP BY): 20 min</li>
+<li>Filtrado de grupos (HAVING): 10 min</li>
+</ul>
+</li>
+<li><strong>Sección 4: Combinación de Tablas (40 minutos)</strong>
+<ul>
+<li>Modelo relacional: 5 min</li>
+<li>INNER JOIN: 15 min</li>
+<li>LEFT JOIN: 15 min</li>
+<li>Uso de alias (AS): 5 min</li>
+</ul>
+</li>
+</ul>
+
+            <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
+            
+        </body>
+        </html>
