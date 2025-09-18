@@ -1,1 +1,1 @@
-# sql-demo
+# curso-mvp
