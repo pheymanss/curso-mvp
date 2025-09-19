@@ -62,13 +62,14 @@
 
 - **Modelo relacional: Llaves primarias y foráneas**
   - Explicación de los campos clave que permiten establecer relaciones entre tablas.
-- **Combinación de tablas: INNER JOIN**
-  - **Aplicación real:** "Se requiere ver el nombre de cada cliente junto al ID de sus órdenes."
-  - Práctica: `SELECT ordenes.id, clientes.nombre FROM ordenes INNER JOIN clientes ON ordenes.cliente_id = clientes.id;`
-- **Combinaciones externas: LEFT JOIN**
-  - **Aplicación real:** "Se debe generar una lista de todos los clientes e indicar quiénes de ellos nunca han realizado una orden."
-  - Práctica: `SELECT clientes.nombre, ordenes.id FROM clientes LEFT JOIN ordenes ON clientes.id = ordenes.cliente_id;`
-- **Uso de alias: `AS`**
+
+**Combinación de tablas: JOIN**
+  - Explicación general del uso de JOIN para combinar información de varias tablas relacionadas.
+  - **Aplicación INNER JOIN:** "Se requiere ver el nombre de cada cliente junto al ID de sus órdenes."
+    - Práctica: `SELECT ordenes.id, clientes.nombre FROM ordenes INNER JOIN clientes ON ordenes.cliente_id = clientes.id;`
+  - **Aplicación LEFT JOIN:** "Se debe generar una lista de todos los clientes e indicar quiénes de ellos nunca han realizado una orden."
+    - Práctica: `SELECT clientes.nombre, ordenes.id FROM clientes LEFT JOIN ordenes ON clientes.id = ordenes.cliente_id;`
+**Uso de alias: `AS`**
   - **Función:** Asignar nombres temporales a tablas y columnas para mejorar la legibilidad y evitar ambigüedad en consultas complejas.
 
 ## Anexo: Próximos Pasos y Temas Avanzados
