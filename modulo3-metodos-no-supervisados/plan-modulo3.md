@@ -1,152 +1,141 @@
 # Plan Módulo 3: Métodos de Aprendizaje No Supervisado
 
 ## Información General
-- **Duración:** ~4 horas
-- **Nivel:** Intermedio
-- **Prerrequisitos:** Conocimientos básicos de Python, Pandas, y conceptos fundamentales de estadística
-- **Objetivo:** Desarrollar competencias en técnicas de aprendizaje no supervisado para descubrir patrones, segmentar datos y reducir dimensionalidad en conjuntos de datos complejos.
 
----
+**Descripción del módulo:**  
+Este módulo cubre técnicas de aprendizaje no supervisado aplicadas al descubrimiento de patrones, segmentación de datos y reducción de dimensionalidad en conjuntos de datos complejos. El aprendizaje no supervisado constituye una herramienta fundamental en entornos profesionales donde los datos no vienen etiquetados previamente, permitiendo extraer estructura y conocimiento de información sin clasificaciones predefinidas.
 
-## Proceso de Desarrollo del Módulo
+**Tecnologías utilizadas:**  
+- Scikit-learn (K-Means, clustering jerárquico, PCA, t-SNE)
+- UMAP (reducción de dimensionalidad no lineal)
+- PacMap (visualización preservando estructura local y global)
+- Pandas (manipulación de datos)
+- Matplotlib/Seaborn (visualización)
+- Jupyter Notebook (entorno de desarrollo)
 
-### Fase 1: Planificación ✅
-- [x] Definir objetivos de aprendizaje
-- [x] Estructurar contenidos
-- [x] Establecer casos de uso empresariales
-
-### Fase 2: Contenido Teórico 
-- [ ] `modulo3-metodos-no-supervisados.md` - Contenido teórico completo
-
-### Fase 3: Laboratorio Práctico 
-- [ ] `lab3-aprendizaje-no-supervisado.ipynb` - Ejercicios prácticos con contexto empresarial
-
-### Fase 4: Guión Narrativo 
-- [ ] `guion-modulo3-no-supervisado.md` - Segmentos de ~5 minutos cada uno
+**Objetivos de aprendizaje:**  
+Este módulo desarrolla competencias para aplicar técnicas de aprendizaje no supervisado en contextos profesionales, incluyendo segmentación de clientes, reducción de dimensionalidad para visualización y análisis exploratorio, e interpretación de resultados para generación de insights accionables de negocio.
 
 ---
 
 ## Estructura de Contenidos
 
-### Sección 1: Fundamentos del Aprendizaje No Supervisado (30 minutos)
-**Objetivo:** Introducir los conceptos fundamentales del aprendizaje no supervisado y sus aplicaciones en la industria.
+### Sección 1: Fundamentos del Aprendizaje No Supervisado
+
+**Objetivo:**  
+Introducir los conceptos fundamentales del aprendizaje no supervisado y sus aplicaciones en la industria.
 
 **Contenidos:**
-- ¿Qué es el aprendizaje no supervisado? (10 min)
-- Diferencias con aprendizaje supervisado (5 min)
-- Aplicaciones principales: segmentación, detección de anomalías, exploración de datos (15 min)
+- Por qué empezar con aprendizaje no supervisado en lugar de con supervisado?
+- Definición de aprendizaje no supervisado y diferencias fundamentales con aprendizaje supervisado
+- Tipos principales de problemas: clustering, reducción de dimensionalidad, detección de anomalías
+- Aplicaciones en industria: segmentación de clientes, compresión de datos, visualización exploratoria
+- Desafíos particulares: ausencia de métricas de evaluación obvias, interpretabilidad de resultados
 
-**Caso empresarial principal:** Descubrimiento de patrones en comportamiento de clientes sin etiquetas predefinidas
-
-### Sección 2: Clustering K-Means (60 minutos)
-**Objetivo:** Dominar el algoritmo de clustering más utilizado en la industria para segmentación de datos.
-
-**Contenidos:**
-- Fundamentos del algoritmo K-Means (10 min)
-- El proceso iterativo: inicialización, asignación, actualización (15 min)
-- Distancia euclidiana y su sensibilidad a la escala (10 min)
-- Elección del número óptimo de clusters: método del codo y coeficiente de silueta (15 min)
-- Interpretación de centroides para insights de negocio (10 min)
-
-**Casos empresariales:**
-- Segmentación de clientes para marketing personalizado
-- Identificación de perfiles de consumo
-- Agrupación de productos por características similares
-
-### Sección 3: Clustering Jerárquico (50 minutos)
-**Objetivo:** Aplicar técnicas de clustering jerárquico para explorar estructuras de datos a múltiples niveles de granularidad.
-
-**Contenidos:**
-- Fundamentos del clustering jerárquico (10 min)
-- Agrupamiento aglomerativo vs divisivo (10 min)
-- Dendrogramas: construcción e interpretación (15 min)
-- Métodos de enlace: single, complete, average, Ward (10 min)
-- Criterios para corte del dendrograma (5 min)
-
-**Casos empresariales:**
-- Taxonomía de productos sin categorías predefinidas
-- Análisis de jerarquías de clientes
-- Segmentación flexible de mercados
-
-### Sección 4: Análisis de Componentes Principales - PCA (60 minutos)
-**Objetivo:** Reducir la dimensionalidad de datos preservando la información más relevante para análisis y visualización.
-
-**Contenidos:**
-- Fundamentos de PCA y reducción de dimensionalidad (10 min)
-- Varianza explicada y componentes principales (15 min)
-- Componentes como combinaciones lineales de variables originales (15 min)
-- Criterios para selección del número de componentes (10 min)
-- Visualización en 2D/3D y aplicaciones (10 min)
-
-**Casos empresariales:**
-- Compresión de datos de sensores industriales
-- Visualización de portfolios financieros
-- Preprocesamiento para modelos de machine learning
-
-### Sección 5: Métodos Modernos de Reducción de Dimensionalidad (40 minutos)
-**Objetivo:** Aplicar técnicas avanzadas para visualización de datos de alta dimensionalidad con estructuras no lineales.
-
-**Contenidos:**
-- Limitaciones de PCA para datos no lineales (5 min)
-- Introducción a UMAP: principios y parámetros clave (15 min)
-- Introducción a PacMap: ventajas sobre UMAP (10 min)
-- Comparativa PCA vs UMAP vs PacMap (5 min)
-- Aplicaciones en visualización de datos complejos (5 min)
-
-**Casos empresariales:**
-- Visualización de embeddings de texto
-- Análisis exploratorio de datos genómicos
-- Detección de anomalías en datos de alta dimensión
+**Casos de uso en industria:**
+- Descubrimiento de segmentos de clientes sin categorías predefinidas para estrategias de marketing diferenciadas
+- Identificación de patrones de comportamiento en datos de transacciones para detección de anomalías
+- Análisis exploratorio de datasets de alta dimensionalidad en investigación y desarrollo
 
 ---
 
-## Competencias Desarrolladas
+### Sección 2: Clustering con K-Means
 
-Al finalizar este módulo, los participantes serán capaces de:
+**Objetivo:**  
+Dominar el algoritmo K-Means para segmentación de datos en entornos profesionales.
 
-1. **Segmentación con K-Means:** Aplicar clustering K-Means para segmentar clientes, productos o transacciones, seleccionando el número óptimo de clusters
-2. **Clustering Jerárquico:** Construir e interpretar dendrogramas para explorar agrupaciones naturales a múltiples niveles
-3. **Reducción con PCA:** Reducir dimensionalidad de datos preservando varianza, facilitando visualización y análisis
-4. **Visualización Avanzada:** Utilizar UMAP y PacMap para visualizar estructuras complejas en datos de alta dimensión
-5. **Interpretación de Resultados:** Traducir outputs de algoritmos no supervisados en insights accionables de negocio
+**Contenidos:**
+- Fundamentos matemáticos del algoritmo K-Means y objetivo de minimización
+- Proceso iterativo: inicialización de centroides, asignación de puntos, actualización de centroides
+- Distancia euclidiana como métrica de similitud y sensibilidad a escalas de variables
+- Métodos para selección del número óptimo de clusters: método del codo (elbow method) y coeficiente de silueta
+- Interpretación de centroides como perfiles representativos de cada segmento
+- Limitaciones del algoritmo: sensibilidad a inicialización, formas de clusters, outliers
 
----
-
-## Evaluación del Aprendizaje
-
-### Calibración Inicial (5 preguntas)
-- Autoevaluación de conocimientos previos sobre clustering y reducción de dimensionalidad
-- Identificación de familiaridad con conceptos estadísticos básicos
-
-### Laboratorio Práctico (ejercicios por definir)
-- Ejercicios progresivos con contexto empresarial real
-- Cada ejercicio requiere aplicar técnicas de aprendizaje no supervisado
-- Validación de resultados e interpretación de outputs
-
-### Evaluación Final (10 preguntas)
-- Preguntas de mayor profundidad que la calibración
-- Todas respondibles con información del módulo
-- Enfoque en aplicación práctica y toma de decisiones
+**Casos de uso en industria:**
+- Segmentación de base de clientes para personalización de estrategias de marketing y retención
+- Identificación de perfiles de consumo para optimización de inventario y recomendaciones
+- Agrupación de productos por características de venta para gestión de categorías
+- Clasificación de comportamientos de uso en plataformas digitales
 
 ---
 
-## Tecnologías Utilizadas
+### Sección 3: Clustering Jerárquico
 
-- **Scikit-learn:** Implementaciones de K-Means, clustering jerárquico y PCA
-- **UMAP:** Biblioteca especializada para reducción de dimensionalidad no lineal
-- **PacMap:** Método moderno para visualización preservando estructura local y global
-- **Pandas:** Manipulación de datos
-- **Matplotlib/Seaborn:** Visualización de resultados, dendrogramas y scatter plots
-- **Jupyter Notebook:** Entorno interactivo de aprendizaje
-- **Datos de ejemplo:** Datasets de clientes, transacciones, productos y datos sintéticos para demostración
+**Objetivo:**  
+Aplicar técnicas de clustering jerárquico para explorar estructuras de datos a múltiples niveles de granularidad.
+
+**Contenidos:**
+- Comparación intuitiva con K-means. Ventajas y limitaciones frente a K-Means: flexibilidad vs escalabilidad
+- Fundamentos de clustering jerárquico: construcción bottom-up de agrupaciones
+- Diferencia entre métodos aglomerativos (bottom-up) y divisivos (top-down)
+- Dendrogramas: interpretación visual de jerarquías de agrupación
+- Métodos de enlace (linkage): single, complete, average, Ward
+- Comparación de métodos de enlace: cuándo usar cada uno según la estructura esperada
+- Criterios para determinar el punto de corte del dendrograma
+
+**Casos de uso en industria:**
+- Desarrollo de taxonomías de productos sin categorías predefinidas para e-commerce
+- Análisis de jerarquías naturales en bases de clientes para estrategias de múltiples niveles
+- Segmentación flexible de mercados explorando diferentes niveles de granularidad
+- Organización de documentos o artículos por similitud temática
 
 ---
 
-## Próximos Pasos
+### Sección 4: Análisis de Componentes Principales (PCA)
 
-Una vez dominados estos conceptos, los participantes estarán preparados para:
-- Técnicas avanzadas de detección de anomalías
-- Clustering basado en densidad (DBSCAN, HDBSCAN)
-- Métodos de ensemble para clustering
-- Integración de aprendizaje no supervisado con técnicas supervisadas
-- Aplicaciones en deep learning: autoencoders y embeddings
+**Objetivo:**  
+Aplicar PCA para reducción de dimensionalidad preservando la información más relevante para análisis y visualización.
+
+**Contenidos:**
+- Fundamentos matemáticos de PCA: proyección en direcciones de máxima varianza
+- Componentes principales como combinaciones lineales de variables originales
+- Concepto de varianza explicada y su interpretación
+- Criterios para selección del número de componentes: varianza acumulada, scree plot
+- Interpretación de loadings para entender qué variables originales contribuyen a cada componente
+- Visualización en 2D/3D de datos de alta dimensionalidad
+- Limitaciones: linealidad, sensibilidad a outliers, pérdida de interpretabilidad directa
+- Preprocesamiento necesario: estandarización de variables
+
+**Casos de uso en industria:**
+- Compresión de datos de sensores industriales para almacenamiento y transmisión eficiente
+- Visualización de portafolios financieros en espacios de menor dimensión
+- Reducción de dimensionalidad como preprocesamiento para modelos de machine learning
+- Identificación de factores latentes en encuestas o estudios de mercado
+- Detección de patrones en imágenes hiperespectrales o datos genómicos
+
+---
+
+### Sección 5: Métodos Modernos de Reducción de Dimensionalidad
+
+**Objetivo:**  
+Aplicar técnicas avanzadas de reducción de dimensionalidad para visualización de datos con estructuras no lineales.
+
+**Contenidos:**
+- Limitaciones fundamentales de PCA para datos no lineales y estructuras complejas
+- t-SNE: visualización mediante preservación de vecindarios locales
+  - Fundamentos: minimización de divergencia entre distribuciones de probabilidad
+  - Parámetros clave: perplexity (tamaño de vecindario), learning_rate, n_iter
+  - Interpretación correcta: preservación de estructura local, no de distancias globales
+  - Limitaciones: no determinístico, sensible a parámetros, lento en datasets grandes
+- UMAP: principios de preservación de estructura local y global
+  - Parámetros clave: n_neighbors (escala local), min_dist (densidad), n_components
+  - Ventajas sobre t-SNE: más rápido, mejor preservación global, determinístico
+  - Cuándo usar UMAP: datos con manifolds no lineales, visualización de clusters complejos
+- PacMap: diseño para preservación balanceada de pares de puntos
+  - Ventajas sobre UMAP y t-SNE: mejor preservación de estructura global, menor distorsión
+  - Parámetros y configuraciones recomendadas
+- Comparativa PCA vs t-SNE vs UMAP vs PacMap:
+  - PCA: rápido, interpretable, lineal, mejor para varianza estructurada linealmente
+  - t-SNE: excelente preservación local, ideal para exploración visual, lento en datos grandes
+  - UMAP: balance local-global, rápido, reproducible, requiere tuning de parámetros
+  - PacMap: mejor preservación global, robusto, menos sensible a parámetros
+- Interpretación de visualizaciones: distancias relativas vs estructura de clusters vs densidades locales
+
+**Casos de uso en industria:**
+- Visualización exploratoria de embeddings de texto generados por modelos de lenguaje (BERT, GPT)
+- Análisis exploratorio de datos genómicos o proteómicos de alta dimensionalidad
+- Detección visual de anomalías en espacios complejos (cyberseguridad, fraude)
+- Exploración de espacios latentes en sistemas de recomendación
+- Validación cualitativa de segmentaciones o clasificaciones complejas
+- Visualización de datasets de imágenes para identificación de patrones y grupos naturales
