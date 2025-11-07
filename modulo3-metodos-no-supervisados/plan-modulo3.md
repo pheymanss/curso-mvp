@@ -26,8 +26,9 @@ Este módulo desarrolla competencias para aplicar técnicas de aprendizaje no su
 Introducir los conceptos fundamentales del aprendizaje no supervisado y sus aplicaciones en la industria.
 
 **Contenidos:**
-- Por qué empezar con aprendizaje no supervisado en lugar de con supervisado?
+- Por qué empezar con aprendizaje no supervisado en lugar de con supervisado? 
 - Definición de aprendizaje no supervisado y diferencias fundamentales con aprendizaje supervisado
+- Aprender sobre columnas o aprender sobre filas
 - Tipos principales de problemas: clustering, reducción de dimensionalidad, detección de anomalías
 - Aplicaciones en industria: segmentación de clientes, compresión de datos, visualización exploratoria
 - Desafíos particulares: ausencia de métricas de evaluación obvias, interpretabilidad de resultados
@@ -92,10 +93,10 @@ Aplicar PCA para reducción de dimensionalidad preservando la información más 
 - Componentes principales como combinaciones lineales de variables originales
 - Concepto de varianza explicada y su interpretación
 - Criterios para selección del número de componentes: varianza acumulada, scree plot
-- Interpretación de loadings para entender qué variables originales contribuyen a cada componente
+- Interpretación de pesos (loadings) para entender qué variables originales contribuyen a cada componente
 - Visualización en 2D/3D de datos de alta dimensionalidad
 - Limitaciones: linealidad, sensibilidad a outliers, pérdida de interpretabilidad directa
-- Preprocesamiento necesario: estandarización de variables
+- Preprocesamiento/supuesto necesario: estandarización de variables
 
 **Casos de uso en industria:**
 - Compresión de datos de sensores industriales para almacenamiento y transmisión eficiente

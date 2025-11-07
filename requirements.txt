@@ -1,0 +1,25 @@
+# Dependencias para Jupyter Book
+
+# Librerías de Python para análisis de datos
+numpy>=1.24.0
+pandas>=2.0.0
+matplotlib>=3.7.0
+seaborn>=0.12.0
+scikit-learn>=1.3.0
+
+# Librerías para SQL
+sqlalchemy>=2.0.0
+psycopg2-binary>=2.9.0
+
+# Visualización avanzada
+plotly>=5.14.0
+altair>=5.0.0
+
+# Estadística
+scipy>=1.11.0
+statsmodels>=0.14.0
+
+# Notebooks
+jupyter>=1.0.0
+ipykernel>=6.25.0
+

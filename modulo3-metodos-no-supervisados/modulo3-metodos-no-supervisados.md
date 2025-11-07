@@ -383,6 +383,8 @@ En este ejemplo simplificado, podemos observar cómo:
 - Los centroides se mueven iterativamente hacia el "centro de masa" de sus miembros
 - El algoritmo separa usuarios con patrones de consumo claramente diferentes
 
+![Figura 1: Evolución del proceso iterativo de K-Means mostrando cómo los centroides se desplazan y las asignaciones de cluster se refinan en cada iteración, ilustrando la convergencia del algoritmo hacia una solución estable en la segmentación de datos.](graficos/kmeans_iteraciones.png)
+
 ### 2.4 Distancia euclidiana y sensibilidad a la escala
 
 La dependencia de K-Means en distancia euclidiana tiene implicaciones prácticas críticas. Consideremos un ejemplo de segmentación de clientes con dos variables:
@@ -444,6 +446,8 @@ K-Means, al depender de distancias euclidianas, está diseñado para variables n
 
 **Alternativas:** Para datasets con muchas variables categóricas, algoritmos como K-Modes (variante de K-Means para datos categóricos) pueden ser más apropiados.
 
+![Figura 2: Comparación visual del impacto de la estandarización en clustering, mostrando cómo variables sin estandarizar permiten que aquellas con mayor magnitud dominen la formación de clusters, mientras que la estandarización permite que todas las variables contribuyan equitativamente a la segmentación.](graficos/sensibilidad_escala.png)
+
 ### 2.5 Selección del número óptimo de clusters
 
 Una de las decisiones más críticas al aplicar K-Means es especificar $k$, el número de clusters. A diferencia de aprendizaje supervisado donde el número de clases está predefinido, en clustering no existe una respuesta única correcta. El $k$ óptimo depende del objetivo de negocio, la estructura inherente de los datos, y consideraciones prácticas de implementación.
@@ -460,28 +464,19 @@ A medida que $k$ aumenta, la inercia siempre disminuye: más clusters permiten q
 
 **Ejemplo de uso:**
 ```python
-import numpy as np
-import matplotlib.pyplot as plt
 from sklearn.cluster import KMeans
 
-# Calcular inercia para diferentes valores de k
-inercias = []
-rango_k = range(1, 11)
+# Aplicar K-Means con un valor especifico de k
+kmeans = KMeans(n_clusters=k, random_state=42)
+kmeans.fit(datos)
 
-for k in rango_k:
-    kmeans = KMeans(n_clusters=k, random_state=42)
-    kmeans.fit(datos)
-    inercias.append(kmeans.inertia_)
-
-# Graficar metodo del codo
-plt.figure(figsize=(10, 6))
-plt.plot(rango_k, inercias, marker='o')
-plt.xlabel('Numero de clusters (k)')
-plt.ylabel('Inercia')
-plt.title('Metodo del Codo')
-plt.grid(True)
-plt.show()
+# Acceder a la inercia del modelo
+inercia = kmeans.inertia_
 ```
+
+Para evaluar múltiples valores de k, este proceso se repite iterativamente y se comparan las inercias resultantes.
+
+![Figura 3: Gráfico del método del codo mostrando la relación entre el número de clusters (k) y la inercia, donde el punto de inflexión (codo) sugiere el valor óptimo de k que balancea la reducción de inercia con la parsimonia del modelo.](graficos/metodo_codo.png)
 
 #### Coeficiente de silueta
 
@@ -508,25 +503,16 @@ El coeficiente de silueta promedio sobre todas las observaciones proporciona una
 ```python
 from sklearn.metrics import silhouette_score
 
-# Calcular coeficiente de silueta para diferentes valores de k
-siluetas = []
-rango_k = range(2, 11)  # Silueta requiere al menos 2 clusters
+# Obtener etiquetas de cluster
+etiquetas = kmeans.fit_predict(datos)
 
-for k in rango_k:
-    kmeans = KMeans(n_clusters=k, random_state=42)
-    etiquetas = kmeans.fit_predict(datos)
-    silueta = silhouette_score(datos, etiquetas)
-    siluetas.append(silueta)
-
-# Graficar coeficientes de silueta
-plt.figure(figsize=(10, 6))
-plt.plot(rango_k, siluetas, marker='o')
-plt.xlabel('Numero de clusters (k)')
-plt.ylabel('Coeficiente de Silueta')
-plt.title('Coeficiente de Silueta vs k')
-plt.grid(True)
-plt.show()
+# Calcular coeficiente de silueta
+coef_silueta = silhouette_score(datos, etiquetas)
 ```
+
+El coeficiente resultante se compara entre diferentes valores de k para seleccionar el óptimo.
+
+![Figura 4: Evolución del coeficiente de silueta en función del número de clusters, ilustrando cómo esta métrica permite identificar el valor de k que maximiza tanto la cohesión intra-cluster como la separación inter-cluster.](graficos/coeficiente_silueta.png)
 
 #### Consideraciones de negocio
 
@@ -629,7 +615,6 @@ Para facilitar interpretación, especialmente con múltiples variables, los cent
 
 ```python
 import pandas as pd
-import matplotlib.pyplot as plt
 
 # Crear DataFrame con centroides
 nombres_variables = ['frecuencia', 'valor', 'antiguedad', 'diversidad']
@@ -638,16 +623,11 @@ centroides_df = pd.DataFrame(
     columns=nombres_variables
 )
 
-# Grafico de barras de centroides
-fig, axes = plt.subplots(1, k, figsize=(15, 4))
-for i, ax in enumerate(axes):
-    centroides_df.iloc[i].plot(kind='bar', ax=ax)
-    ax.set_title(f'Cluster {i}')
-    ax.set_ylabel('Valor estandarizado')
-    ax.axhline(0, color='black', linewidth=0.8)
-plt.tight_layout()
-plt.show()
+# Acceder a centroides de un cluster específico
+centroides_df.iloc[cluster_id]
 ```
+
+El DataFrame resultante facilita comparación directa entre clusters y permite identificar qué variables diferencian cada segmento. En el laboratorio se implementará visualización gráfica completa de estos centroides.
 
 #### Caracterización estadística de clusters
 
@@ -657,15 +637,12 @@ Más allá de centroides, analizar estadísticas descriptivas de cada cluster en
 # Asignar etiquetas de cluster al DataFrame original
 datos_originales['cluster'] = kmeans.labels_
 
-# Estadisticas descriptivas por cluster
-for cluster_id in range(k):
-    print(f"\n=== Cluster {cluster_id} ===")
-    cluster_data = datos_originales[datos_originales['cluster'] == cluster_id]
-    print(f"Tamaño: {len(cluster_data)} observaciones")
-    print(cluster_data.describe())
+# Seleccionar observaciones de un cluster específico
+cluster_data = datos_originales[datos_originales['cluster'] == cluster_id]
+print(cluster_data.describe())
 ```
 
-Este análisis revela no solo promedios sino también dispersión (desviación estándar), rangos, y distribuciones dentro de cada cluster, proporcionando comprensión más rica de cada segmento.
+Este análisis revela no solo promedios sino también dispersión (desviación estándar), rangos, y distribuciones dentro de cada cluster, proporcionando comprensión más rica de cada segmento. En el laboratorio se implementará un análisis iterativo sobre todos los clusters.
 
 #### Nomenclatura de clusters
 
@@ -718,6 +695,8 @@ En espacios de alta dimensionalidad (muchas variables), distancias euclidianas p
 - Reducción de dimensionalidad previa (PCA) antes de clustering
 - Selección de variables relevantes
 - Considerar métricas de distancia alternativas
+
+![Figura 5: Casos donde K-Means falla en identificar correctamente la estructura de datos, ilustrando las limitaciones del algoritmo con clusters de formas no esféricas, densidades variables y distribuciones complejas como medias lunas o anillos concéntricos.](graficos/limitaciones_kmeans.png)
 
 ### 2.8 Implementación en Scikit-learn
 
@@ -952,26 +931,19 @@ El dendrograma proporciona guía visual para seleccionar el número de clusters:
 
 ```python
 from scipy.cluster.hierarchy import dendrogram, linkage
-import matplotlib.pyplot as plt
 
-# Calcular linkage usando metodo de Ward
+# Calcular linkage usando método de Ward
 Z = linkage(datos_escalados, method='ward')
 
-# Crear dendrograma
-plt.figure(figsize=(12, 8))
+# Crear dendrograma básico
 dendrogram(Z, 
-           truncate_mode='lastp',  # mostrar solo ultimas p fusiones
-           p=30,                    # numero de clusters a mostrar
-           leaf_rotation=90,
-           leaf_font_size=10)
-plt.xlabel('Indice de muestra o tamaño de cluster')
-plt.ylabel('Distancia')
-plt.title('Dendrograma de Clustering Jerarquico')
-plt.axhline(y=altura_corte, color='r', linestyle='--')  # linea de corte
-plt.show()
+           truncate_mode='lastp',  # mostrar solo últimas p fusiones
+           p=30)                    # número de clusters a mostrar
 ```
 
-Para datasets grandes, la opción `truncate_mode='lastp'` muestra solo las últimas `p` fusiones, haciendo el dendrograma más legible.
+Para datasets grandes, la opción `truncate_mode='lastp'` muestra solo las últimas `p` fusiones, haciendo el dendrograma más legible. La visualización completa con títulos y línea de corte se implementará en el laboratorio.
+
+![Figura 6: Dendrograma de clustering jerárquico mostrando la estructura de fusiones sucesivas entre clusters, donde la altura de cada fusión indica la distancia entre los grupos unidos, permitiendo identificar el número óptimo de clusters mediante cortes horizontales en puntos de alta diferenciación.](graficos/dendrograma.png)
 
 ### 3.4 Métodos de enlace (linkage)
 
@@ -1049,26 +1021,16 @@ La elección del método de enlace tiene impacto significativo en los resultados
 
 ```python
 from sklearn.cluster import AgglomerativeClustering
-import numpy as np
 
-# Probar diferentes metodos de enlace
-metodos = ['single', 'complete', 'average', 'ward']
-resultados = {}
-
-for metodo in metodos:
-    clustering = AgglomerativeClustering(
-        n_clusters=4,
-        linkage=metodo
-    )
-    etiquetas = clustering.fit_predict(datos_escalados)
-    resultados[metodo] = etiquetas
-    
-    # Analizar tamaños de clusters
-    unique, counts = np.unique(etiquetas, return_counts=True)
-    print(f"\n{metodo.upper()} - Tamaños de clusters:")
-    for cluster, count in zip(unique, counts):
-        print(f"  Cluster {cluster}: {count} observaciones")
+# Aplicar clustering jerárquico con un método específico
+clustering = AgglomerativeClustering(
+    n_clusters=4,
+    linkage='ward'  # Opciones: 'single', 'complete', 'average', 'ward'
+)
+etiquetas = clustering.fit_predict(datos_escalados)
 ```
+
+En el laboratorio se implementará una comparación sistemática entre los diferentes métodos de enlace, evaluando sus resultados y analizando los tamaños de clusters resultantes.
 
 **Criterios de selección:**
 
@@ -1089,6 +1051,8 @@ for metodo in metodos:
 
 En la práctica industrial, Ward es el método más utilizado por producir resultados generalmente interpretables y clusters cohesivos.
 
+![Figura 7: Comparación visual de los cuatro métodos principales de enlace en clustering jerárquico (single, complete, average y ward), ilustrando cómo cada método produce particiones distintas de los mismos datos según su criterio de distancia entre clusters, con impacto directo en la forma y tamaño de los grupos resultantes.](graficos/metodos_enlace.png)
+
 ### 3.6 Criterios para determinar el punto de corte
 
 Una vez construido el dendrograma, determinar dónde cortarlo (cuántos clusters formar) requiere combinar análisis cuantitativo y consideraciones de negocio.
@@ -1105,26 +1069,20 @@ from scipy.cluster.hierarchy import linkage, fcluster
 # Calcular linkage
 Z = linkage(datos_escalados, method='ward')
 
-# Analizar diferencias entre fusiones consecutivas
-alturas = Z[:, 2]
-diferencias = np.diff(alturas)
-max_salto_idx = np.argmax(diferencias)
-
-# Altura de corte sugerida
-altura_corte = alturas[max_salto_idx]
-
-# Formar clusters en base a altura de corte
+# Formar clusters basándose en altura de corte
 etiquetas = fcluster(Z, t=altura_corte, criterion='distance')
-print(f"Numero de clusters formados: {len(np.unique(etiquetas))}")
 ```
+
+El análisis de las alturas de fusión y la identificación del salto máximo se implementará en el laboratorio para determinar el punto de corte óptimo.
 
 #### Criterio de número de clusters
 
 Especificar directamente cuántos clusters se desean:
 
 ```python
+from scipy.cluster.hierarchy import fcluster
+
 # Cortar dendrograma para obtener exactamente k clusters
-k = 5
 etiquetas = fcluster(Z, t=k, criterion='maxclust')
 ```
 
@@ -1135,19 +1093,12 @@ Evaluar múltiples puntos de corte usando coeficiente de silueta para identifica
 ```python
 from sklearn.metrics import silhouette_score
 
-# Evaluar diferentes numeros de clusters
-siluetas = []
-rango_k = range(2, 11)
-
-for k in rango_k:
-    etiquetas = fcluster(Z, t=k, criterion='maxclust')
-    silueta = silhouette_score(datos_escalados, etiquetas)
-    siluetas.append(silueta)
-    print(f"k={k}: silueta={silueta:.3f}")
-
-# Seleccionar k que maximiza silueta
-k_optimo = rango_k[np.argmax(siluetas)]
+# Evaluar un número específico de clusters
+etiquetas = fcluster(Z, t=k, criterion='maxclust')
+silueta = silhouette_score(datos_escalados, etiquetas)
 ```
+
+En el laboratorio se implementará la evaluación sistemática de diferentes valores de $k$ para identificar el número óptimo de clusters.
 
 #### Consideraciones de negocio
 
@@ -1165,32 +1116,18 @@ Scikit-learn proporciona `AgglomerativeClustering` para clustering jerárquico:
 ```python
 from sklearn.cluster import AgglomerativeClustering
 from sklearn.preprocessing import StandardScaler
-import pandas as pd
-import numpy as np
 
-# Preparacion de datos
+# Preparación de datos
 scaler = StandardScaler()
 datos_escalados = scaler.fit_transform(datos)
 
-# Clustering jerarquico
+# Clustering jerárquico
 clustering = AgglomerativeClustering(
-    n_clusters=5,           # numero de clusters deseado
-    linkage='ward',         # metodo de enlace
-    affinity='euclidean'    # metrica de distancia
+    n_clusters=5,           # número de clusters deseado
+    linkage='ward',         # método de enlace
+    affinity='euclidean'    # métrica de distancia
 )
-
-# Ajustar y predecir
 etiquetas = clustering.fit_predict(datos_escalados)
-
-# Agregar etiquetas a datos originales
-datos['cluster'] = etiquetas
-
-# Analizar resultados
-for cluster_id in range(5):
-    cluster_data = datos[datos['cluster'] == cluster_id]
-    print(f"\n=== Cluster {cluster_id} ===")
-    print(f"Tamaño: {len(cluster_data)}")
-    print(cluster_data.describe())
 ```
 
 **Parámetros importantes:**
@@ -1199,7 +1136,7 @@ for cluster_id in range(5):
 - `linkage`: Método de enlace ('ward', 'complete', 'average', 'single')
 - `affinity`: Métrica de distancia ('euclidean', 'manhattan', 'cosine')
 
-**Nota:** Para generar dendrograma con Scikit-learn, se usa `scipy.cluster.hierarchy` como se mostró anteriormente, ya que Scikit-learn no proporciona visualización directa de dendrogramas.
+**Nota:** Para generar dendrograma con Scikit-learn, se usa `scipy.cluster.hierarchy` como se mostró anteriormente, ya que Scikit-learn no proporciona visualización directa de dendrogramas. El análisis detallado de resultados se implementará en el laboratorio.
 
 ### 3.8 Comparación detallada: K-Means vs Clustering Jerárquico
 
@@ -1488,37 +1425,16 @@ Este ejemplo ilustra cómo PCA no es solo una técnica matemática, sino una her
 #### Visualización de varianza explicada
 
 ```python
-import matplotlib.pyplot as plt
 import numpy as np
 
-# Proporcion de varianza explicada por cada componente
+# Proporción de varianza explicada por cada componente
 varianza_explicada = pca.explained_variance_ratio_
 
 # Varianza acumulada
 varianza_acumulada = np.cumsum(varianza_explicada)
-
-# Grafico
-fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(14, 5))
-
-# Grafico de barras: varianza por componente
-ax1.bar(range(1, len(varianza_explicada) + 1), varianza_explicada)
-ax1.set_xlabel('Componente Principal')
-ax1.set_ylabel('Proporcion de Varianza Explicada')
-ax1.set_title('Varianza Explicada por Componente')
-
-# Grafico de linea: varianza acumulada
-ax2.plot(range(1, len(varianza_acumulada) + 1), varianza_acumulada, marker='o')
-ax2.axhline(y=0.80, color='r', linestyle='--', label='80% varianza')
-ax2.axhline(y=0.90, color='g', linestyle='--', label='90% varianza')
-ax2.set_xlabel('Numero de Componentes')
-ax2.set_ylabel('Varianza Acumulada')
-ax2.set_title('Varianza Acumulada')
-ax2.legend()
-ax2.grid(True)
-
-plt.tight_layout()
-plt.show()
 ```
+
+La visualización de la varianza explicada ayuda a determinar cuántas componentes retener. En el laboratorio se implementará la visualización completa con gráficos de barras y líneas que muestran la varianza individual y acumulada por componente.
 
 ### 4.5 Criterios para selección del número de componentes
 
@@ -1545,15 +1461,13 @@ print(f"Componentes necesarias para {varianza_objetivo*100}% varianza: {n_compon
 El scree plot grafica autovalores (o varianza explicada) contra el número de componente. Similar al método del codo en clustering, se busca el punto donde la curva se "aplana", indicando que componentes adicionales agregan poco valor.
 
 ```python
-plt.figure(figsize=(10, 6))
-plt.plot(range(1, len(pca.explained_variance_) + 1), 
-         pca.explained_variance_, marker='o')
-plt.xlabel('Componente Principal')
-plt.ylabel('Autovalor (Varianza)')
-plt.title('Scree Plot')
-plt.grid(True)
-plt.show()
+# Obtener autovalores de cada componente
+autovalores = pca.explained_variance_
 ```
+
+El scree plot ayuda a identificar visualmente el punto de inflexión donde componentes adicionales aportan poco. La visualización completa se implementará en el laboratorio.
+
+![Figura 8: Scree plot mostrando la varianza explicada por cada componente principal en orden decreciente, junto con la varianza acumulada, permitiendo identificar el número óptimo de componentes mediante el criterio del codo donde la contribución marginal de cada componente adicional se vuelve mínima.](graficos/scree_plot_pca.png)
 
 #### Regla de Kaiser
 
@@ -1562,11 +1476,14 @@ Retener solo componentes con autovalores mayores a 1 (para datos estandarizados)
 Esta regla funciona mejor con datos estandarizados y puede ser demasiado conservadora o liberal dependiendo del dataset.
 
 ```python
+import numpy as np
+
 # Componentes con autovalor > 1
 autovalores = pca.explained_variance_
 n_kaiser = np.sum(autovalores > 1)
-print(f"Componentes con autovalor > 1: {n_kaiser}")
 ```
+
+El cálculo se aplicará en el laboratorio para determinar el número de componentes a retener según este criterio.
 
 #### Consideraciones específicas del contexto
 
@@ -1587,18 +1504,21 @@ Los loadings (pesos o cargas) indican cuánto contribuye cada variable original 
 Para datos estandarizados, los loadings pueden interpretarse como correlaciones entre variables originales y componentes principales. Valores cercanos a ±1 indican fuerte relación; valores cercanos a 0 indican poca relación.
 
 ```python
+import pandas as pd
+import numpy as np
+
 # Obtener loadings
 loadings = pca.components_.T * np.sqrt(pca.explained_variance_)
 
-# Crear DataFrame para mejor visualizacion
+# Crear DataFrame para mejor visualización
 loadings_df = pd.DataFrame(
     loadings,
     columns=[f'PC{i+1}' for i in range(loadings.shape[1])],
     index=nombres_variables
 )
-
-print(loadings_df)
 ```
+
+El análisis detallado de los loadings se realizará en el laboratorio para interpretar qué variables contribuyen más a cada componente principal.
 
 #### Visualización de loadings
 
@@ -1606,40 +1526,28 @@ print(loadings_df)
 ```python
 import seaborn as sns
 
-plt.figure(figsize=(12, 8))
+# Visualizar loadings como heatmap
 sns.heatmap(loadings_df.iloc[:, :5],  # primeras 5 componentes
-            annot=True, fmt='.2f', cmap='RdBu_r', center=0,
-            cbar_kws={'label': 'Loading'})
-plt.title('Loadings de Componentes Principales')
-plt.xlabel('Componente Principal')
-plt.ylabel('Variable Original')
-plt.tight_layout()
-plt.show()
+            annot=True, fmt='.2f', cmap='RdBu_r', center=0)
 ```
+
+Esta visualización facilita identificar qué variables tienen mayor peso en cada componente. En el laboratorio se implementará la visualización completa con títulos y etiquetas.
 
 **Biplot:** Visualización que combina observaciones proyectadas y vectores de loadings:
 ```python
-def biplot(scores, loadings, labels):
-    plt.figure(figsize=(10, 8))
-    
-    # Graficar observaciones
-    plt.scatter(scores[:, 0], scores[:, 1], alpha=0.5)
-    
-    # Graficar vectores de variables
-    for i, label in enumerate(labels):
-        plt.arrow(0, 0, loadings[i, 0], loadings[i, 1],
-                  head_width=0.05, head_length=0.05, fc='r', ec='r')
-        plt.text(loadings[i, 0]*1.15, loadings[i, 1]*1.15,
-                 label, fontsize=10, ha='center')
-    
-    plt.xlabel('PC1')
-    plt.ylabel('PC2')
-    plt.title('Biplot: PC1 vs PC2')
-    plt.grid(True)
-    plt.show()
+import matplotlib.pyplot as plt
 
-biplot(datos_pca, loadings, nombres_variables)
+# Graficar observaciones en espacio PC1-PC2
+plt.scatter(datos_pca[:, 0], datos_pca[:, 1], alpha=0.5)
+
+# Graficar vectores de variables
+for i, label in enumerate(nombres_variables):
+    plt.arrow(0, 0, loadings[i, 0], loadings[i, 1], 
+              head_width=0.05, head_length=0.05)
+    plt.text(loadings[i, 0]*1.15, loadings[i, 1]*1.15, label)
 ```
+
+El biplot combina la proyección de datos y los vectores de variables en un solo gráfico, facilitando la interpretación simultánea. La implementación completa se desarrollará en el laboratorio.
 
 #### Interpretación de componentes
 
@@ -1781,36 +1689,21 @@ La proyección a menor dimensión inevitablemente pierde información. Distancia
 from sklearn.decomposition import PCA
 from sklearn.preprocessing import StandardScaler
 import pandas as pd
-import numpy as np
 
-# Paso 1: Estandarizacion (critico para PCA)
+# Estandarización (crítico para PCA)
 scaler = StandardScaler()
 datos_escalados = scaler.fit_transform(datos)
 
-# Paso 2: Aplicar PCA
-# Opcion A: Especificar numero de componentes
+# Aplicar PCA con número específico de componentes
 pca = PCA(n_components=5)
-
-# Opcion B: Especificar varianza minima a retener
-# pca = PCA(n_components=0.95)  # retiene componentes hasta 95% varianza
-
-# Ajustar y transformar
 datos_pca = pca.fit_transform(datos_escalados)
 
-# Paso 3: Analizar resultados
-print(f"Forma original: {datos.shape}")
-print(f"Forma reducida: {datos_pca.shape}")
-print(f"\nVarianza explicada por componente:")
-for i, var in enumerate(pca.explained_variance_ratio_):
-    print(f"  PC{i+1}: {var:.4f} ({var*100:.2f}%)")
+# Acceder a varianza explicada por cada componente
+varianza_explicada = pca.explained_variance_ratio_
 
-print(f"\nVarianza acumulada: {pca.explained_variance_ratio_.sum():.4f}")
-
-# Paso 4: Crear DataFrame con componentes
+# Crear DataFrame con componentes principales
 columnas_pc = [f'PC{i+1}' for i in range(datos_pca.shape[1])]
 datos_pca_df = pd.DataFrame(datos_pca, columns=columnas_pc)
-
-# Paso 5: Reconstruccion (opcional)
 # Transformar de vuelta a espacio original
 datos_reconstruidos = pca.inverse_transform(datos_pca)
 datos_reconstruidos = scaler.inverse_transform(datos_reconstruidos)
@@ -1825,6 +1718,8 @@ print(f"\nError cuadratico medio de reconstruccion: {error:.6f}")
 - `n_components`: Número de componentes (entero) o varianza mínima a retener (float entre 0 y 1)
 - `whiten`: Si True, componentes se escalan para tener varianza unitaria (útil para algunos algoritmos posteriores)
 - `random_state`: Para reproducibilidad cuando se usa método aleatorio (raro en PCA estándar)
+
+![Figura 9: Proyección PCA de datos de 5 dimensiones a 2 dimensiones mostrando cómo las componentes principales preservan la separación entre clusters naturales en los datos, ilustrando la utilidad de PCA para visualización y compresión dimensional manteniendo estructura relevante.](graficos/pca_proyeccion.png)
 
 ### 4.9 Casos de uso detallados en industria
 
@@ -1987,29 +1882,19 @@ Número de pasos de optimización.
 
 ```python
 from sklearn.manifold import TSNE
-import matplotlib.pyplot as plt
 
-# Aplicar t-SNE con diferentes perplexities
-perplexities = [5, 30, 50]
-fig, axes = plt.subplots(1, 3, figsize=(18, 5))
-
-for idx, perp in enumerate(perplexities):
-    tsne = TSNE(n_components=2, 
-                perplexity=perp, 
-                learning_rate=200,
-                n_iter=2000,
-                random_state=42)
-    datos_tsne = tsne.fit_transform(datos_escalados)
-    
-    axes[idx].scatter(datos_tsne[:, 0], datos_tsne[:, 1], 
-                     c=etiquetas, cmap='viridis', alpha=0.6, s=10)
-    axes[idx].set_title(f'Perplexity = {perp}')
-    axes[idx].set_xlabel('t-SNE 1')
-    axes[idx].set_ylabel('t-SNE 2')
-
-plt.tight_layout()
-plt.show()
+# Aplicar t-SNE con parámetros específicos
+tsne = TSNE(
+    n_components=2, 
+    perplexity=30,        # Balance entre estructura local y global
+    learning_rate=200,
+    n_iter=2000,
+    random_state=42
+)
+datos_tsne = tsne.fit_transform(datos_escalados)
 ```
+
+El parámetro `perplexity` controla el equilibrio entre preservar estructura local vs global. En el laboratorio se implementará una comparación sistemática de diferentes valores de perplexity para identificar el más apropiado.
 
 #### Interpretación correcta de visualizaciones t-SNE
 
@@ -2174,33 +2059,18 @@ Métrica de distancia en espacio original.
 
 ```python
 import umap
-import matplotlib.pyplot as plt
 
-# Aplicar UMAP con diferentes configuraciones
-configs = [
-    {'n_neighbors': 5, 'min_dist': 0.1, 'name': 'Local (n=5)'},
-    {'n_neighbors': 15, 'min_dist': 0.1, 'name': 'Balanceado (n=15)'},
-    {'n_neighbors': 50, 'min_dist': 0.1, 'name': 'Global (n=50)'}
-]
-
-fig, axes = plt.subplots(1, 3, figsize=(18, 5))
-
-for idx, config in enumerate(configs):
-    reducer = umap.UMAP(n_components=2,
-                        n_neighbors=config['n_neighbors'],
-                        min_dist=config['min_dist'],
-                        random_state=42)
-    datos_umap = reducer.fit_transform(datos_escalados)
-    
-    axes[idx].scatter(datos_umap[:, 0], datos_umap[:, 1],
-                     c=etiquetas, cmap='viridis', alpha=0.6, s=10)
-    axes[idx].set_title(config['name'])
-    axes[idx].set_xlabel('UMAP 1')
-    axes[idx].set_ylabel('UMAP 2')
-
-plt.tight_layout()
-plt.show()
+# Aplicar UMAP con parámetros específicos
+reducer = umap.UMAP(
+    n_components=2,
+    n_neighbors=15,      # Tamaño de vecindario local
+    min_dist=0.1,        # Distancia mínima entre puntos
+    random_state=42
+)
+datos_umap = reducer.fit_transform(datos_escalados)
 ```
+
+El parámetro `n_neighbors` controla el balance entre estructura local (valores pequeños) y global (valores grandes). `min_dist` controla qué tan compactos quedan los clusters. En el laboratorio se implementará una exploración sistemática de diferentes configuraciones.
 
 **Ejemplo detallado: Análisis de productos de e-commerce**
 
@@ -2240,6 +2110,8 @@ Dentro del continente de electrónica:
 4. **Anomalías:** 3 productos de "electrónica" aparecen en el continente de "hogar" - revisar si están mal categorizados o tienen características híbridas únicas.
 
 **Validación:** Equipo de merchandising valida que la estructura macro (4 continentes) y micro (clusters dentro de electrónica) corresponden a estructura real de negocio y comportamiento de compra.
+
+![Figura 10: Comparación entre t-SNE y UMAP en la proyección de datos de alta dimensionalidad, ilustrando cómo t-SNE optimiza para preservación de estructura local formando clusters más compactos, mientras UMAP balancea estructura local y global manteniendo mejor las relaciones de distancia entre clusters distantes.](graficos/comparacion_tsne_umap.png)
 
 ### 5.5 PacMap: Robustez y balance mejorado
 
@@ -2281,26 +2153,19 @@ PacMap tiene menos parámetros que requieren ajuste que t-SNE o UMAP:
 
 ```python
 import pacmap
-import matplotlib.pyplot as plt
 
-# Aplicar PacMap con configuracion estandar
-reducer = pacmap.PaCMAP(n_components=2, 
-                        n_neighbors=10,
-                        MN_ratio=0.5,
-                        FP_ratio=2.0,
-                        random_state=42)
-
+# Aplicar PacMap con configuración estándar
+reducer = pacmap.PaCMAP(
+    n_components=2, 
+    n_neighbors=10,      # Número de vecinos
+    MN_ratio=0.5,        # Proporción de pares mid-near
+    FP_ratio=2.0,        # Proporción de pares lejanos
+    random_state=42
+)
 datos_pacmap = reducer.fit_transform(datos_escalados)
-
-plt.figure(figsize=(10, 8))
-plt.scatter(datos_pacmap[:, 0], datos_pacmap[:, 1],
-           c=etiquetas, cmap='viridis', alpha=0.6, s=10)
-plt.xlabel('PacMap 1')
-plt.ylabel('PacMap 2')
-plt.title('Proyeccion PacMap')
-plt.colorbar(label='Cluster')
-plt.show()
 ```
+
+Los parámetros por defecto de PacMap funcionan bien en la mayoría de casos, requiriendo menos ajuste que t-SNE o UMAP. La implementación completa con visualización se desarrollará en el laboratorio.
 
 **Ejemplo comparativo: Embeddings de lenguaje**
 
@@ -2540,6 +2405,7 @@ Aunque gasto contribuye más en este caso, cuando las diferencias en minutos son
 ```python
 from sklearn.preprocessing import StandardScaler
 
+# Estandarizar datos (media=0, desviación estándar=1)
 scaler = StandardScaler()
 datos_escalados = scaler.fit_transform(datos_clientes)
 ```
@@ -2862,15 +2728,15 @@ Un cliente con alto % de acciones_tec y bajo % de efectivo tendrá score positiv
 ```python
 import umap
 
+# Configuración optimizada para dataset grande
 reducer = umap.UMAP(
     n_components=2,          # Para visualización 2D
     n_neighbors=30,          # Valor moderado-alto para dataset grande
     min_dist=0.1,           # Balance entre compactación y separación
-    metric='cosine',         # Apropiado para embeddings (alternativa a euclidean)
+    metric='cosine',         # Apropiado para embeddings
     random_state=42,        # Reproducibilidad
     n_jobs=-1               # Paralelización para velocidad
 )
-
 embeddings_2d = reducer.fit_transform(embeddings_productos)
 ```
 
@@ -2888,6 +2754,8 @@ embeddings_2d = reducer.fit_transform(embeddings_productos)
 2. **Semana 2-N:** Para nuevos productos, usar `reducer.transform(nuevos_embeddings)` si UMAP lo soporta en la versión, o re-entrenar UMAP completo (factible por velocidad)
 3. **Clustering:** Aplicar K-Means o DBSCAN sobre embeddings_2d resultantes
 4. **Validación:** Comparar clusters de semana a semana para detectar cambios en catálogo
+
+El flujo de trabajo completo será implementado en el laboratorio con casos de uso específicos.
 
 **Alternativa si t-SNE fuera necesario:**
 
@@ -2965,6 +2833,3 @@ Para confirmar que PacMap está preservando correctamente:
 - Si PacMap también está distorsionando (ej: región visual de malignos parece tener 30% del espacio cuando solo es 10% de puntos), entonces quizás la visualización necesita ajuste de parámetros o interpretación cuidadosa
 
 </details>
-
----
-
