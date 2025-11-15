@@ -15,10 +15,9 @@ import numpy as np
 import pandas as pd
 import os
 
-# Crear directorio data/ para datasets si no existe
+# Los datasets se guardan en el mismo directorio que el script (data/)
 script_dir = os.path.dirname(os.path.abspath(__file__))
-output_dir = os.path.join(script_dir, 'data')
-os.makedirs(output_dir, exist_ok=True)
+output_dir = script_dir
 
 
 def generar_datos_clientes():
